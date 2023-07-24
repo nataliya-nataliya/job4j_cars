@@ -41,7 +41,8 @@ public class UserRepository {
         try {
             session.beginTransaction();
             session.createQuery(
-                            "update User set login = :fLogin, password = :fPassword WHERE id = :fId")
+                            "update User set login = :fLogin, password = "
+                                    + ":fPassword WHERE id = :fId")
                     .setParameter("fLogin", user.getLogin())
                     .setParameter("fPassword", user.getPassword())
                     .setParameter("fId", user.getId())
@@ -78,9 +79,16 @@ public class UserRepository {
      */
     public List<User> findAllOrderById() {
         Session session = sf.openSession();
-        Query<User> query = session.createQuery(
-                "from User", User.class);
-        return query.list();
+        List<User> userList = null;
+        try {
+            session.beginTransaction();
+            userList = session.createQuery(
+                    "from User", User.class).list();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+        return userList;
     }
 
     /**
@@ -90,10 +98,18 @@ public class UserRepository {
      */
     public Optional<User> findById(int userId) {
         Session session = sf.openSession();
-        Query<User> query = session.createQuery(
-                "from User as u where u.id = :fId", User.class);
-        query.setParameter("fId", userId);
-        return Optional.of(query.getSingleResult());
+        Query<User> query = null;
+        try {
+            session.beginTransaction();
+            query = session.createQuery(
+                            "from User as u where u.id = :fId", User.class)
+                    .setParameter("fId", userId);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+        assert query != null;
+        return query.uniqueResultOptional();
     }
 
     /**
@@ -104,10 +120,17 @@ public class UserRepository {
      */
     public List<User> findByLikeLogin(String key) {
         Session session = sf.openSession();
-        Query<User> query = session.createQuery(
-                "from User as u where u.login like :fKey", User.class);
-        query.setParameter("fKey", "%" + key + "%");
-        return query.list();
+        List<User> userList = null;
+        try {
+            session.beginTransaction();
+            userList = session.createQuery(
+                            "from User as u where u.login like :fKey", User.class)
+                    .setParameter("fKey", "%" + key + "%").list();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+        return userList;
     }
 
     /**
@@ -118,9 +141,17 @@ public class UserRepository {
      */
     public Optional<User> findByLogin(String login) {
         Session session = sf.openSession();
-        Query<User> query = session.createQuery(
-                "from User as u where u.login = :fLogin", User.class);
-        query.setParameter("fLogin", login);
-        return Optional.of(query.getSingleResult());
+        Query<User> query = null;
+        try {
+            session.beginTransaction();
+            query = session.createQuery(
+                            "from User as u where u.login = :fLogin", User.class)
+                    .setParameter("fLogin", login);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+        assert query != null;
+        return query.uniqueResultOptional();
     }
 }
