@@ -5,17 +5,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "auto_users")
-public class User {
+@Table(name = "price_history")
+public class PriceHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
     @EqualsAndHashCode.Include
-    private String login;
-    private String password;
+    private int id;
+    private long before;
+    private long after;
+    private LocalDateTime created;
 }

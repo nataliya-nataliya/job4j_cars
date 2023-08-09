@@ -5,6 +5,9 @@
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-    <include file="scripts/001_ddl_create_users_and_posts.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/002_dml_update_users.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/001_ddl_create_users_schema.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/002_ddl_create_posts_schema.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/003_dml_update_users.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/004_ddl_create_price_history_schema.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/005_ddl_alter_table_posts_add_history_price_id_column.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

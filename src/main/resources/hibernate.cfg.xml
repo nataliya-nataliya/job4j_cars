@@ -6,13 +6,15 @@
     <session-factory>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/car</property>
-        <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">postgres</property>
+        <property name="hibernate.connection.username"></property>
+        <property name="hibernate.connection.password"></property>
         <property name="hibernate.connection.pool_size">1</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
+        <mapping class="ru.job4j.cars.model.Post" />
         <mapping class="ru.job4j.cars.model.User" />
+        <mapping class="ru.job4j.cars.model.PriceHistory" />
     </session-factory>
 </hibernate-configuration>
