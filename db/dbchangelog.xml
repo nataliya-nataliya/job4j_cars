@@ -11,4 +11,5 @@
     <include file="scripts/004_ddl_create_price_history_schema.sql" relativeToChangelogFile="true"/>
     <include file="scripts/005_ddl_alter_table_posts_add_history_price_id_column.sql" relativeToChangelogFile="true"/>
     <include file="scripts/006_ddl_create_participates_schema.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/007_ddl_create_engines_cars_owners_schema.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

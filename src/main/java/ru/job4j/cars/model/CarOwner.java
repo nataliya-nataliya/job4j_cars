@@ -9,13 +9,16 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "price_history")
-public class PriceHistory {
+@Table(name = "cars_owners")
+public class CarOwner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
-    private long before;
-    private long after;
-    private LocalDateTime created;
+    private Car car;
+    private Owner owner;
+    @Column(name = "start_own")
+    private LocalDateTime startOwn;
+    @Column(name = "end_own")
+    private LocalDateTime endOwn;
 }
