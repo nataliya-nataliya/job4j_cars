@@ -15,7 +15,11 @@ public class CarOwner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
+    @ManyToOne
+    @JoinColumn(name = "car_id")
     private Car car;
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
     private Owner owner;
     @Column(name = "start_own")
     private LocalDateTime startOwn;

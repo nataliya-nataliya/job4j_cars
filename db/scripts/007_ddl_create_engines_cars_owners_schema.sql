@@ -24,5 +24,6 @@ create table cars_owners
     car_id    int references cars (id) not null,
     owner_id  int references owners (id) not null,
     start_own timestamp without time zone default now(),
-    end_own   timestamp without time zone default now()
+    end_own   timestamp without time zone default now(),
+    unique (car_id, start_own)
 );
