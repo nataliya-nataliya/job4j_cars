@@ -59,6 +59,24 @@ public class HbmPostRepository implements PostRepository {
     @Override
     public Collection<Post> findAllOrderByCreated() {
         return crudRepository.query("from Post f order by f.id", Post.class);
+    }
 
+    @Override
+    public Collection<Post> findAllWhereCreatedIsTodayOrderByCreated() {
+        return crudRepository.query("from Post f where f.created :: date = "
+                        + "current_date order by f.created",
+                Post.class);
+    }
+
+    @Override
+    public Collection<Post> findAllWhereFileIsNotNullOrderByCreated() {
+        return crudRepository.query("from Post f where f.file is not null order by f.created",
+                Post.class);
+    }
+
+    @Override
+    public Collection<Post> findPostByCarBrandOrderByCreated(int id) {
+        return crudRepository.query("from Post f join f.car c join c.brand b where b.id = :fId",
+                Post.class, Map.of("bId", id));
     }
 }

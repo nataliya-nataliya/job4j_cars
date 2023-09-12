@@ -12,4 +12,8 @@
     <include file="scripts/005_ddl_alter_table_posts_add_history_price_id_column.sql" relativeToChangelogFile="true"/>
     <include file="scripts/006_ddl_create_participates_schema.sql" relativeToChangelogFile="true"/>
     <include file="scripts/007_ddl_create_engines_cars_owners_schema.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/008_ddl_alter_table_cars_delete_name_column.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/009_ddl_create_brand_models_and_car_brands_schema.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/010_ddl_alter_table_cars_add_brand_and_model_columns.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/011_ddl_create_files_table_and_add_file_column_in_posts.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

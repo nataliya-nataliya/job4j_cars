@@ -15,4 +15,10 @@ public interface PostRepository {
     Optional<Post> findById(int id);
 
     Collection<Post> findAllOrderByCreated();
+
+    Collection<Post> findAllWhereCreatedIsTodayOrderByCreated();
+
+    Collection<Post> findAllWhereFileIsNotNullOrderByCreated();
+
+    Collection<Post> findPostByCarBrandOrderByCreated(int id);
 }

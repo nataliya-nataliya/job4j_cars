@@ -34,4 +34,10 @@ public class Post {
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
     private Set<User> participates = new HashSet<>();
+    @OneToOne
+    @JoinColumn(name = "car_id")
+    private File file;
+    @ManyToOne
+    @JoinColumn(name = "car_id")
+    private Car car;
 }
