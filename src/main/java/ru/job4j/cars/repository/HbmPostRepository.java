@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Post;
 
 import javax.persistence.PersistenceException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -62,10 +63,9 @@ public class HbmPostRepository implements PostRepository {
     }
 
     @Override
-    public Collection<Post> findAllWhereCreatedIsTodayOrderByCreated() {
-        return crudRepository.query("from Post f where f.created :: date = "
-                        + "current_date order by f.created",
-                Post.class);
+    public Collection<Post> findAllWhereCreatedIsDate(LocalDateTime dateTime) {
+        return crudRepository.query("from Post f where f.created = :fCreated", Post.class,
+                Map.of("fCreated", dateTime));
     }
 
     @Override

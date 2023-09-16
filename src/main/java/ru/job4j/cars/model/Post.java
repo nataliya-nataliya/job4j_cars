@@ -34,8 +34,9 @@ public class Post {
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
     private Set<User> participates = new HashSet<>();
-    @OneToOne
-    @JoinColumn(name = "car_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "file_id")
+    private List<File> fileList = new ArrayList<>();
     private File file;
     @ManyToOne
     @JoinColumn(name = "car_id")
