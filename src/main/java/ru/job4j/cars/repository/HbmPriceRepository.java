@@ -2,51 +2,46 @@ package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ru.job4j.cars.model.Owner;
+import ru.job4j.cars.model.Price;
 
 import javax.persistence.PersistenceException;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
-public class HbmOwnerRepository implements OwnerRepository {
+public class HbmPriceRepository implements PriceRepository {
     private final CrudRepository crudRepository;
 
     @Override
-    public Optional<Owner> save(Owner owner) {
-        Optional<Owner> optionalOwner;
+    public Optional<Price> save(Price price) {
+        Optional<Price> optionalPrice;
         try {
-            crudRepository.run(session -> session.persist(owner));
-            optionalOwner = Optional.of(owner);
+            crudRepository.run(session -> session.persist(price));
+            optionalPrice = Optional.of(price);
         } catch (PersistenceException e) {
-            optionalOwner = Optional.empty();
+            optionalPrice = Optional.empty();
         }
-        return optionalOwner;
+        return optionalPrice;
     }
 
     @Override
-    public Optional<Owner> findById(int id) {
+    public Optional<Price> findById(int id) {
         return crudRepository.optional(
-                "from Owner f where f.id = :fId", Owner.class,
+                "from Price f where f.id = :fId", Price.class,
                 Map.of("fId", id)
         );
     }
 
+    @Override
     public boolean deleteById(int id) {
         boolean isCompletedTransaction;
         try {
-            crudRepository.run("delete Owner where id = :fId", Map.of("fId", id));
+            crudRepository.run("delete Price where id = :fId", Map.of("fId", id));
             isCompletedTransaction = true;
         } catch (PersistenceException e) {
             isCompletedTransaction = false;
         }
         return isCompletedTransaction;
-    }
-
-    @Override
-    public Collection<Owner> findAllOrderById() {
-        return crudRepository.query("from Owner order by id", Owner.class);
     }
 }

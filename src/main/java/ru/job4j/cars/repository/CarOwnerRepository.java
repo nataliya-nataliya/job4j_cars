@@ -10,4 +10,6 @@ public interface CarOwnerRepository {
     boolean update(CarOwner carOwner);
 
     Optional<CarOwner> findById(int id);
+
+    boolean deleteById(int id);
 }

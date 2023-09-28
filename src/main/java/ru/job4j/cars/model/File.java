@@ -12,8 +12,9 @@ import javax.persistence.*;
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
     private int id;
+    @EqualsAndHashCode.Include
     private String name;
+    @EqualsAndHashCode.Include
     private String path;
 }

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
 @Entity
 @Table(name = "cars_owners")
 public class CarOwner {
@@ -16,11 +17,13 @@ public class CarOwner {
     @EqualsAndHashCode.Include
     private int id;
     @ManyToOne
-    @JoinColumn(name = "car_id")
+
+    @JoinColumn(name = "car_id", foreignKey = @ForeignKey(name = "CAR_ID_FK"))
     private Car car;
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id", foreignKey = @ForeignKey(name = "OWNER_ID_FK"))
     private Owner owner;
+
     @Column(name = "start_own")
     private LocalDateTime startOwn;
     @Column(name = "end_own")

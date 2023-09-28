@@ -19,7 +19,7 @@ public class Car {
     private Brand brand;
     @ManyToOne
     @JoinColumn(name = "model_id", foreignKey = @ForeignKey(name = "MODEL_ID_FK"))
-    private Model model;
+    private CarModel carModel;
     @ManyToOne
     @JoinColumn(name = "engine_id", foreignKey = @ForeignKey(name = "ENGINE_ID_FK"))
     private Engine engine;

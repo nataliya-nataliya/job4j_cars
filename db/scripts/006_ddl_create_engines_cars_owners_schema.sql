@@ -8,7 +8,7 @@ create table cars
 (
     id        serial primary key,
     name      varchar(50),
-    engine_id int not null unique references engines (id) not null
+    engine_id int not null references engines (id)
 );
 
 create table owners

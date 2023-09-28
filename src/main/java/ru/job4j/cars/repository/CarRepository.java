@@ -2,14 +2,11 @@ package ru.job4j.cars.repository;
 
 import ru.job4j.cars.model.Car;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public interface CarRepository {
-    Optional<Car> save(Car car);
-
-    boolean deleteById(int id);
-
-    boolean update(Car car);
+    Collection<Car> findAllOrderById();
 
     Optional<Car> findById(int id);
 }

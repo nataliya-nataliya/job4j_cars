@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Post;
 
 import javax.persistence.PersistenceException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
@@ -58,25 +59,31 @@ public class HbmPostRepository implements PostRepository {
     }
 
     @Override
-    public Collection<Post> findAllOrderByCreated() {
-        return crudRepository.query("from Post f order by f.id", Post.class);
+    public Collection<Post> findAllOrderByCreatedDesc() {
+        return crudRepository.query("from Post f order by f.created desc", Post.class);
     }
 
     @Override
-    public Collection<Post> findAllWhereCreatedIsDate(LocalDateTime dateTime) {
-        return crudRepository.query("from Post f where f.created = :fCreated", Post.class,
-                Map.of("fCreated", dateTime));
+    public Collection<Post> findAllWhereCreatedIsDateOrderByCreated(LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atStartOfDay().plusDays(1);
+
+        return crudRepository.query("from Post f "
+                        + "where f.created >= :startDate and f.created < :endDate order by created",
+                Post.class,
+                Map.of("startDate", startOfDay, "endDate", endOfDay));
     }
 
     @Override
     public Collection<Post> findAllWhereFileIsNotNullOrderByCreated() {
-        return crudRepository.query("from Post f where f.file is not null order by f.created",
+        return crudRepository.query("from Post p join fetch p.fileList",
                 Post.class);
     }
 
     @Override
     public Collection<Post> findPostByCarBrandOrderByCreated(int id) {
-        return crudRepository.query("from Post f join f.car c join c.brand b where b.id = :fId",
+        return crudRepository.query("select p from Post p join p.car c join c.brand b "
+                        + "where b.id = :bId",
                 Post.class, Map.of("bId", id));
     }
 }

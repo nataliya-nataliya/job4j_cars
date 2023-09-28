@@ -2,17 +2,17 @@ package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ru.job4j.cars.model.Engine;
+import ru.job4j.cars.model.CarModel;
 
 import java.util.Collection;
 
 @Repository
 @AllArgsConstructor
-public class HbmEngineRepository implements EngineRepository {
+public class HbmCarModelRepository implements CarModelRepository {
     private final CrudRepository crudRepository;
 
     @Override
-    public Collection<Engine> findAllOrderById() {
-        return crudRepository.query("from Engine order by id", Engine.class);
+    public Collection<CarModel> findAllOrderById() {
+        return crudRepository.query("from CarModel order by id", CarModel.class);
     }
 }

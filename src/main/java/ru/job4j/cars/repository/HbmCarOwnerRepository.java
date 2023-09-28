@@ -44,4 +44,16 @@ public class HbmCarOwnerRepository implements CarOwnerRepository {
                 Map.of("fId", id)
         );
     }
+
+    @Override
+    public boolean deleteById(int id) {
+        boolean isCompletedTransaction;
+        try {
+            crudRepository.run("delete CarOwner where id = :fId", Map.of("fId", id));
+            isCompletedTransaction = true;
+        } catch (PersistenceException e) {
+            isCompletedTransaction = false;
+        }
+        return isCompletedTransaction;
+    }
 }

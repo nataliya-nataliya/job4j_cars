@@ -2,7 +2,7 @@ package ru.job4j.cars.repository;
 
 import ru.job4j.cars.model.Post;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -15,9 +15,9 @@ public interface PostRepository {
 
     Optional<Post> findById(int id);
 
-    Collection<Post> findAllOrderByCreated();
+    Collection<Post> findAllOrderByCreatedDesc();
 
-    Collection<Post> findAllWhereCreatedIsDate(LocalDateTime dateTime);
+    Collection<Post> findAllWhereCreatedIsDateOrderByCreated(LocalDate date);
 
     Collection<Post> findAllWhereFileIsNotNullOrderByCreated();
 

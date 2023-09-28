@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.User;
 
 import javax.persistence.PersistenceException;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,11 +27,11 @@ public class HbmUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<User> findByEmailAndPassword(String email, String password) {
+    public Optional<User> findByLoginAndPassword(String login, String password) {
         return crudRepository.optional(
-                "from User as u where u.email = :fEmail and "
+                "from User as u where u.login = :fLogin and "
                         + "u.password = :fPassword", User.class,
-                Map.of("fEmail", email, "fPassword", password)
+                Map.of("fLogin", login, "fPassword", password)
         );
     }
 
@@ -40,5 +41,22 @@ public class HbmUserRepository implements UserRepository {
                 "from User as u where u.id = :fId", User.class,
                 Map.of("fId", id)
         );
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        boolean isCompletedTransaction;
+        try {
+            crudRepository.run("delete User where id = :fId", Map.of("fId", id));
+            isCompletedTransaction = true;
+        } catch (PersistenceException e) {
+            isCompletedTransaction = false;
+        }
+        return isCompletedTransaction;
+    }
+
+    @Override
+    public Collection<User> findAllOrderById() {
+        return crudRepository.query("from User order by id", User.class);
     }
 }
