@@ -21,8 +21,8 @@ public class HbmCarRepository implements CarRepository {
     @Override
     public Optional<Car> findById(int id) {
         return crudRepository.optional(
-                "from Car f where f.id = :fId", Car.class,
-                Map.of("fId", id)
+                "from Car c where c.id = :cId", Car.class,
+                Map.of("cId", id)
         );
     }
 }

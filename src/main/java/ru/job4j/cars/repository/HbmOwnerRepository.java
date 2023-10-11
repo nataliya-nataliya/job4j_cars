@@ -1,6 +1,8 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Owner;
 
@@ -12,16 +14,17 @@ import java.util.Optional;
 @Repository
 @AllArgsConstructor
 public class HbmOwnerRepository implements OwnerRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HbmOwnerRepository.class);
     private final CrudRepository crudRepository;
 
     @Override
     public Optional<Owner> save(Owner owner) {
-        Optional<Owner> optionalOwner;
+        Optional<Owner> optionalOwner = Optional.empty();
         try {
             crudRepository.run(session -> session.persist(owner));
             optionalOwner = Optional.of(owner);
         } catch (PersistenceException e) {
-            optionalOwner = Optional.empty();
+            LOGGER.error("Error when saving {} to database", owner.getClass().getSimpleName());
         }
         return optionalOwner;
     }
@@ -29,18 +32,19 @@ public class HbmOwnerRepository implements OwnerRepository {
     @Override
     public Optional<Owner> findById(int id) {
         return crudRepository.optional(
-                "from Owner f where f.id = :fId", Owner.class,
-                Map.of("fId", id)
+                "from Owner o where o.id = :oId", Owner.class,
+                Map.of("oId", id)
         );
     }
 
     public boolean deleteById(int id) {
-        boolean isCompletedTransaction;
+        boolean isCompletedTransaction = false;
         try {
-            crudRepository.run("delete Owner where id = :fId", Map.of("fId", id));
+            crudRepository.run("delete Owner where id = :oId", Map.of("oId", id));
             isCompletedTransaction = true;
         } catch (PersistenceException e) {
-            isCompletedTransaction = false;
+            LOGGER.error("Error when deleting a {} with ID {} from the database",
+                    Owner.class.getSimpleName(), id);
         }
         return isCompletedTransaction;
     }

@@ -1,6 +1,8 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.User;
 
@@ -12,16 +14,17 @@ import java.util.Optional;
 @Repository
 @AllArgsConstructor
 public class HbmUserRepository implements UserRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HbmUserRepository.class);
     private final CrudRepository crudRepository;
 
     @Override
     public Optional<User> save(User user) {
-        Optional<User> optionalUser;
+        Optional<User> optionalUser = Optional.empty();
         try {
             crudRepository.run(session -> session.persist(user));
             optionalUser = Optional.of(user);
         } catch (PersistenceException e) {
-            optionalUser = Optional.empty();
+            LOGGER.error("Error when saving {} to database", user.getClass().getSimpleName());
         }
         return optionalUser;
     }
@@ -29,28 +32,29 @@ public class HbmUserRepository implements UserRepository {
     @Override
     public Optional<User> findByLoginAndPassword(String login, String password) {
         return crudRepository.optional(
-                "from User as u where u.login = :fLogin and "
-                        + "u.password = :fPassword", User.class,
-                Map.of("fLogin", login, "fPassword", password)
+                "from User u where u.login = :uLogin and "
+                        + "u.password = :uPassword", User.class,
+                Map.of("uLogin", login, "uPassword", password)
         );
     }
 
     @Override
     public Optional<User> findById(int id) {
         return crudRepository.optional(
-                "from User as u where u.id = :fId", User.class,
-                Map.of("fId", id)
+                "from User u where u.id = :uId", User.class,
+                Map.of("uId", id)
         );
     }
 
     @Override
     public boolean deleteById(int id) {
-        boolean isCompletedTransaction;
+        boolean isCompletedTransaction = false;
         try {
-            crudRepository.run("delete User where id = :fId", Map.of("fId", id));
+            crudRepository.run("delete User where id = :uId", Map.of("uId", id));
             isCompletedTransaction = true;
         } catch (PersistenceException e) {
-            isCompletedTransaction = false;
+            LOGGER.error("Error when deleting a {} with ID {} from the database",
+                    User.class.getSimpleName(), id);
         }
         return isCompletedTransaction;
     }
