@@ -13,7 +13,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String name;
     @EqualsAndHashCode.Include
     private String login;
     private String password;
+    private String timezone;
 }

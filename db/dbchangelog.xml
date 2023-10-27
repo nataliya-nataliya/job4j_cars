@@ -17,4 +17,5 @@
     <include file="scripts/010_ddl_alter_table_files_add_post_column_and_alter_table_posts_add_car_column.sql" relativeToChangelogFile="true"/>
     <include file="scripts/011_dml_insert_into_tables_engines_brands_models_cars.sql" relativeToChangelogFile="true"/>
     <include file="scripts/012_ddl_delete_price_history_table_create_price_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/013_ddl_alter_table_posts_add_status_column.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

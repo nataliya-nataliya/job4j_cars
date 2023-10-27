@@ -29,7 +29,7 @@ class HbmUserRepositoryTest {
     }
 
     @Test
-    public void whenSaveUserWithSameEmailsThenSaveOneUser() {
+    public void whenSaveUserWithSameLoginsThenSaveOneUser() {
         int sizeBeforeSave = userRepository.findAllOrderById().size();
         var user1 = userRepository.save(user).get();
         var sameUser1 = userRepository.save(user);
