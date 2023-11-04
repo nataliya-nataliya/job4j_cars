@@ -58,9 +58,31 @@ public class HbmPostRepository implements PostRepository {
     }
 
     @Override
+    public boolean updateStatus(Post post) {
+        boolean isCompletedTransaction = false;
+        try {
+            crudRepository.run(
+                    "update Post set status = :pStatus where id = :pId",
+                    Map.of("pStatus", post.isStatus(),
+                            "pId", post.getId())
+            );
+            isCompletedTransaction = true;
+        } catch (PersistenceException e) {
+            LOGGER.error("Error when updating status a {} with ID {} from the database",
+                    Post.class.getSimpleName(), post.getId());
+        }
+        return isCompletedTransaction;
+    }
+
+    @Override
     public Optional<Post> findById(int id) {
         return crudRepository.optional("from Post f where f.id = :fId",
                 Post.class, Map.of("fId", id));
+    }
+
+    public Collection<Post> findAllWhereFindByStatusOrderByCreated(boolean status) {
+        return crudRepository.query("from Post p where p.status = :pStatus order by created",
+                Post.class, Map.of("pStatus", status));
     }
 
     @Override

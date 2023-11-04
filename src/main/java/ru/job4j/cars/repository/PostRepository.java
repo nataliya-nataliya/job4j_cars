@@ -13,7 +13,11 @@ public interface PostRepository {
 
     boolean update(Post post);
 
+    boolean updateStatus(Post post);
+
     Optional<Post> findById(int id);
+
+    Collection<Post> findAllWhereFindByStatusOrderByCreated(boolean status);
 
     Collection<Post> findAllOrderByCreatedDesc();
 
